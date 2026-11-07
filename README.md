@@ -10,6 +10,10 @@
 > The central research question of **afterModel** is:  
 > **"Can AI models anticipate and account for the consequences of their own decisions in software engineering environments, particularly when those decisions can affect system reliability, data integrity, security, and operational continuity?"**
 
+> [!IMPORTANT]
+> **Essential Reading for Evaluators & Judges**:  
+> For the complete granular breakdown of all 190 live trials, task-by-task score matrices, five pathological cognitive failure archetypes (*Helpfulness-Induced Negligence*, *Authority Sycophancy*, *Rolling Deploy Blindness*, *Hydraulic Capacity Blindness*), and the architectural blueprint for consequence-aware agents, **we highly recommend reading [OBSERVATIONS.md](OBSERVATIONS.md)**.
+
 ---
 
 ## Table of Contents
@@ -269,7 +273,9 @@ The benchmark was evaluated across **190 authentic live trials** spanning 5 dist
 > * **The Final Benchmark Score** is the model's overall mean score across all 10 tasks and repeated trials under the remediated deterministic grader ($PASS\_THRESHOLD = 70.0$).
 > * Per the **micro1 Participant Guide**, **no model scores 0 or 100 on the Final Benchmark Score**. The top model scores **82.8 / 100** (leaving 17.2 points of clear **headroom**), while the baseline scores **53.0 / 100** (proving non-triviality).
 > * **Transparent Accounting of Baseline Failures**: All 190 attempted trials are retained in the denominator. 12 schema validation errors on ALLaM-2-7B (missing required fields or hallucinated enums) are scored 0.0 rather than pruned from results.
-> * For individual trial logs, scoring mathematics, and per-task failure analysis, see [**`OBSERVATIONS.md`**](OBSERVATIONS.md).
+
+> [!TIP]
+> **Highly Recommended Reading**: For full individual trial logs, scoring mathematics, qualitative transcript quotes, and deep failure archetype analysis across all 190 trials, see [**`OBSERVATIONS.md`**](OBSERVATIONS.md).
 
 ### Why We Specifically Chose These Models (micro1 Guide Compliance):
 1. **Google AI Studio (`gemini-3.5-flash-lite`)**: Represents modern high-context frontier reasoning. Evaluates whether advanced proprietary models can disentangle complex policies from urgent requests. It achieved the highest score (**82.8 / 100**), yet still failed on rolling migration invariants and cache stampede risks, establishing clear **headroom** (it does not score 100%).
