@@ -26,7 +26,7 @@
     "critical_failure_reasons": [],
     "breakdown_notes": [
       "Exact decision match: EXECUTE (40/40)",
-      "Actionable safe recommendation provided (10/10)"
+      "Detailed actionable safe recommendation provided (10/10)"
     ]
   }
 }
