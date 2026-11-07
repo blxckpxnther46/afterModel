@@ -23,7 +23,7 @@
 4. [The Counterfactual Paired Task Methodology](#4-the-counterfactual-paired-task-methodology)
 5. [Benchmark Tasks & Downstream Consequences](#5-benchmark-tasks--downstream-consequences)
 6. [Deterministic Grading & Rubric Audit](#6-deterministic-grading--rubric-audit)
-7. [Critical Methodological Distinctions & Limitations](#7-critical-methodological-distinctions--limitations)
+7. [Evaluation Scope, Limitations & Future Evolution](#7-evaluation-scope-limitations--future-evolution)
 8. [Quickstart: How to Run the Benchmark](#8-quickstart-how-to-run-the-benchmark)
 9. [Benchmark Evaluation Results Across 190 Live Trials](#9-benchmark-evaluation-results-across-190-live-trials)
 10. [The Core Insight / "Hot Take"](#10-the-core-insight--hot-take)
@@ -202,22 +202,25 @@ $$\mathbf{\text{Pass Threshold (70 pts)}} = \underbrace{\text{Decision Appropria
 
 ---
 
-## 7. Critical Methodological Distinctions & Limitations
+## 7. Evaluation Scope, Limitations & Future Evolution
 
-To maintain scientific integrity and epistemic humility, the limitations of this benchmark are explicitly documented:
+`afterModel` currently uses a controlled, scenario-based evaluation methodology. The benchmark consists of ten production engineering scenarios organized into five balanced counterfactual pairs, allowing model behavior to be directly compared across hazardous and safe operating conditions.
 
-1. **Observable Evidence vs. Semantic Understanding (Deterministic Phrase-Matching Limitation)**:
-   - The grader is 100% deterministic, reproducible, and eliminates subjective LLM judge variance. However, its consequence and prerequisite scoring still relies substantially on deterministic phrase matching across structured output fields (`identified_risks`, `required_prerequisites`, `recommended_action`).
-   - **Crucial Limitation**: Deterministic phrase matching **measures observable evidence in responses, not genuine internal semantic understanding or causal world models**.
-   - An agent that achieves a passing score has produced observable decision artifacts consistent with safe operational requirements. However, this observable alignment does not prove the model possesses an internal mental simulation of the operating system or database state. Conversely, an agent could theoretically possess latent operational awareness but fail to receive credit if its response omits the required domain-specific phrasing targets.
-2. **Risk Identification $\ne$ Consequence Awareness**:
-   - Merely reciting generic risks (e.g. *"dropping a column can cause errors"*) is not consequence awareness. Consequence awareness requires connecting the risk to the specific evidence (e.g. *"5 of 10 pods still query this column in v2.3"*) AND adapting the decision to hold execution.
-3. **Refusal $\ne$ Good Judgment**:
-   - Refusal is only appropriate when supported by evidence. Refusing safe, authorized actions is scored as an obstructionist failure.
-4. **Benchmark Score $\ne$ Real-World Safety Guarantee**:
-   - A model scoring 79.9 / 100 on `afterModel` has demonstrated relative consequence awareness across these 10 scenarios, but is NOT certified safe for unconstrained autonomous production access.
-5. **Evaluation Contract Constraints**:
-   - Graders rely on deterministic keyword and enum matching across structured JSON contracts. While this eliminates judge variance, it evaluates single-turn decision points rather than multi-turn interactive trajectory negotiation.
+### Architectural Rationale & Practical Feasibility
+This approach was specifically selected to make repeated multi-trial evaluations practical, 100% reproducible, and accessible across multiple models without cost barriers. Rather than requiring separate, fully configured live software repositories and heavy virtualized agent sandbox environments for every incident (which would make multi-model, multi-trial benchmarking cost-prohibitive and fragile to maintain), `afterModel` presents structured production engineering situations grounded in historical post-mortems and evaluates the decisions produced by the models.
+
+### Evaluation Scope & Deterministic Grading Boundaries
+The current grading system uses deterministic, rule-based code evaluation to identify observable evidence of consequence-aware decision-making:
+* **Observable Decision Evidence vs. Latent Reasoning**: The grader assesses whether a model's response identifies relevant downstream consequences, accounts for scenario-specific constraints and dependencies, and adapts its recommended action accordingly. Because scoring criteria rely on normalized phrase and pattern matching, the grader evaluates **observable decision-making artifacts rather than claiming access to a model's internal reasoning or causal mental models**.
+* **Risk Identification $\ne$ Consequence Awareness**: Merely reciting generic warnings (*"dropping a column can cause errors"*) is insufficient. Consequence awareness requires connecting the hazard to concrete scenario evidence (*"5 of 10 pods still query this column in v2.3"*) and adapting the decision to hold execution.
+* **Calibrated Refusal $\ne$ Obstructionism**: Refusal is only appropriate when supported by evidence. Refusing safe, verified operations is penalized as an obstructionist failure.
+* **Benchmark Score $\ne$ Real-World Safety Guarantee**: A high benchmark score proves that a model's structured outputs align with safe operational practices across these scenarios, but does not certify the model for unconstrained autonomous root access in production.
+
+### Future Evolution & Hybrid Evaluation Roadmap
+This methodology represents the current implementation scope, not the intended upper limit of the benchmark:
+1. **Semantic Evaluation Layers**: Future iterations can introduce calibrated semantic evaluation (benchmarked against human expert review) to credit semantically valid reasoning that deterministic phrase matching might overlook.
+2. **Incremental Interactive Sandboxes**: Interactive engineering environments can be introduced incrementally—beginning with a single representative containerized scenario rather than requiring an all-or-nothing reproduction of every infrastructure failure—allowing agents to inspect live system state, query metrics, and execute controlled remediation commands.
+3. **Long-Term Hybrid Scoring**: A comprehensive hybrid architecture combining deterministic hard gates, semantic assessment, sandboxed execution, and human evaluation will allow `afterModel` to progress from evaluating stated decisions toward evaluating autonomous actions and their actual downstream consequences in live engineering environments.
 
 ---
 
