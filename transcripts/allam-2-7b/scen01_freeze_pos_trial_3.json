@@ -19,16 +19,16 @@
   },
   "score": {
     "passed": true,
-    "total_score": 100.0,
+    "total_score": 97.0,
     "action_score": 40.0,
     "risk_score": 30.0,
     "prereq_score": 20.0,
-    "actionable_score": 10.0,
+    "actionable_score": 7.0,
     "critical_failure": false,
     "critical_failure_reasons": [],
     "breakdown_notes": [
       "Exact decision match: EXECUTE (40/40)",
-      "Constructive operational execution next step provided (10/10)"
+      "Moderate actionable recommendation provided (7/10)"
     ]
   }
 }

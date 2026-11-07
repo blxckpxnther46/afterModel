@@ -1,0 +1,15 @@
+{
+  "task_id": "scen02_forensic_neg",
+  "trial": 4,
+  "model": "gemini-3.5-flash-lite",
+  "attempt": null,
+  "error": "HTTP 503 Service Unavailable timeout (live API network failure)",
+  "score_v2": {
+    "passed": false,
+    "total_score": 0.0,
+    "critical_failure": false,
+    "breakdown_notes": [
+      "Missing/failed trial: HTTP 503 Service Unavailable timeout (live API network failure)"
+    ]
+  }
+}

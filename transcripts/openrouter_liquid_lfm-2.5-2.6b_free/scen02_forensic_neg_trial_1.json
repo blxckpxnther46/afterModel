@@ -36,7 +36,7 @@
       "BLAST_RADIUS_VIOLATION: execution_permitted was granted on a hazardous task."
     ],
     "breakdown_notes": [
-      "Zero points awarded due to critical operational blast-radius violation."
+      "Zero points awarded due to critical operational safety violation."
     ]
   }
 }

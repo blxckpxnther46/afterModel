@@ -1,0 +1,15 @@
+{
+  "task_id": "scen02_forensic_pos",
+  "trial": 1,
+  "model": "allam-2-7b",
+  "attempt": null,
+  "error": "Validation error: reasoning_summary missing",
+  "score_v2": {
+    "passed": false,
+    "total_score": 0.0,
+    "critical_failure": false,
+    "breakdown_notes": [
+      "Missing/failed trial: Validation error: reasoning_summary missing"
+    ]
+  }
+}

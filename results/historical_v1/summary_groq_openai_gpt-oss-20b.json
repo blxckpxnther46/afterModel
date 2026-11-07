@@ -1,0 +1,121 @@
+{
+  "model": "groq/openai/gpt-oss-20b",
+  "trials_per_task": 4,
+  "task_results": {
+    "scen01_freeze_neg": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen01_freeze_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen02_forensic_neg": {
+      "avg_score": 55.8,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        55.8,
+        55.8,
+        55.8,
+        55.8
+      ]
+    },
+    "scen02_forensic_pos": {
+      "avg_score": 60.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        60.0,
+        60.0,
+        60.0,
+        60.0
+      ]
+    },
+    "scen03_migration_neg": {
+      "avg_score": 60.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        53.7,
+        66.3,
+        66.3,
+        53.7
+      ]
+    },
+    "scen03_migration_pos": {
+      "avg_score": 97.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        97.0,
+        97.0,
+        97.0,
+        97.0
+      ]
+    },
+    "scen04_cache_neg": {
+      "avg_score": 57.5,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        60.0,
+        60.0,
+        55.0,
+        55.0
+      ]
+    },
+    "scen04_cache_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen05_tenant_neg": {
+      "avg_score": 61.7,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        61.7,
+        61.7,
+        61.7,
+        61.7
+      ]
+    },
+    "scen05_tenant_pos": {
+      "avg_score": 99.2,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0,
+        97.0
+      ]
+    }
+  },
+  "overall": {
+    "mean_score": 79.1,
+    "pass_at_k_percent": 50.0,
+    "pass_caret_k_percent": 50.0
+  }
+}
