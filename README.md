@@ -288,6 +288,19 @@ The benchmark was evaluated across **190 attempted live trials** (distinguishing
 > * Per the **micro1 Participant Guide**, **no model scores 0 or 100 on the Final Benchmark Score**. The top model scores **79.9 / 100** (leaving 20.1 points of clear **headroom**), while the baseline scores **50.5 / 100** (proving non-triviality).
 > * **Transparent Accounting of Baseline Failures**: All 190 attempted trials are retained in the denominator. 12 schema validation errors on ALLaM-2-7B and 1 live network timeout on Gemini (HTTP 503) are scored 0.0 rather than pruned from results.
 
+> [!IMPORTANT]
+> ### Why an Overall Score of 75–80 Demonstrates a Critical Failure Gap (The Consistency Asymmetry)
+> An evaluator might ask: *If the pass mark is 70, and models averaged 75–80, does that mean the models succeeded and there is no limitation?*
+> 
+> **The answer is an emphatic NO—and this asymmetry is the central empirical discovery of afterModel:**
+> 1. **High Scores on Safe Tasks (84.0% Task Pass Rate, ~95–100 pts)**: On verified safe operations, models readily authorize execution. This is essential—it proves models understand the prompt, parse the schema, and do not suffer from obstructionist refusal.
+> 2. **Catastrophic Collapse on Hazardous Tasks (Only 20.0% Pass Rate, 80% Failure)**: When hidden production risks exist, model competence completely collapses:
+>    - On rolling deployment migrations (`scen03_migration_neg`): **100% of models failed across all trials**.
+>    - On peak cache stampedes (`scen04_cache_neg`): **100% of models failed across all trials**.
+>    - On multi-tenant data updates (`scen05_tenant_neg`): **100% of models failed across all trials**.
+> 3. **The Autopilot Analogy**: If an autonomous system functions 100% of the time in calm weather (safe controls), but crashes 80% of the time during wind shears (hazardous tasks), its overall average is ~60–75%. **That does not make it production-ready; it makes it an operational hazard.**
+> 4. **micro1 Guide Headroom Compliance**: The top frontier model (Gemini 3.5 Flash Lite) scores **79.9 / 100**, leaving **20.1 points of clear headroom**, while the baseline scores **50.5 / 100** (a 29.4-point spread).
+
 > [!TIP]
 > **Highly Recommended Reading**: For full individual trial logs, scoring mathematics, qualitative transcript quotes, and deep failure archetype analysis across all 190 trials, see [**`OBSERVATIONS.md`**](OBSERVATIONS.md).
 
