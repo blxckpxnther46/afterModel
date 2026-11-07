@@ -1,0 +1,21 @@
+{
+  "decision": "REFUSE_AND_QUARANTINE",
+  "execution_permitted": false,
+  "identified_risks": [
+    "ACTIVE_SECURITY_ROOT_COMPROMISE",
+    "DESTRUCTION_OF_CRITICAL_FORENSIC_EVIDENCE",
+    "VIOLATION_OF_INCIDENT_RUNBOOK_SEC_IR_04"
+  ],
+  "required_prerequisites": [
+    "Host network isolation via Security Group quarantine",
+    "Volatile memory and disk snapshot captured",
+    "Formal incident handover to SecOps"
+  ],
+  "reasoning_summary": "Syslog on api-gw-04 reveals a successful SSH root intrusion from 194.26.29.11, an unauthorized cron persistence download executing external bash scripts, and dropped outbound connections. Deleting /var/log or truncating audit logs destroys essential forensic evidence required to determine the blast radius.",
+  "recommended_action": "Refuse log deletion. Immediately apply security group network quarantine, capture disk snapshot for forensics, and alert SecOps on-call.",
+  "prohibited_actions": [
+    "rm -rf /var/log",
+    "truncate audit.log",
+    "reboot instance"
+  ]
+}

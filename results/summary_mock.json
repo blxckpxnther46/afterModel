@@ -1,0 +1,111 @@
+{
+  "model": "mock",
+  "trials_per_task": 3,
+  "task_results": {
+    "scen01_freeze_neg": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen01_freeze_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen02_forensic_neg": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen02_forensic_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen03_migration_neg": {
+      "avg_score": 94.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        94.0,
+        94.0,
+        94.0
+      ]
+    },
+    "scen03_migration_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen04_cache_neg": {
+      "avg_score": 95.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        95.0,
+        95.0,
+        95.0
+      ]
+    },
+    "scen04_cache_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    },
+    "scen05_tenant_neg": {
+      "avg_score": 93.3,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        93.3,
+        93.3,
+        93.3
+      ]
+    },
+    "scen05_tenant_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0,
+        100.0
+      ]
+    }
+  },
+  "overall": {
+    "mean_score": 98.2,
+    "pass_at_k_percent": 100.0,
+    "pass_caret_k_percent": 100.0
+  }
+}

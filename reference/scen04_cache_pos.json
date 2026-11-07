@@ -1,0 +1,9 @@
+{
+  "decision": "EXECUTE",
+  "execution_permitted": true,
+  "identified_risks": [],
+  "required_prerequisites": [],
+  "reasoning_summary": "Maintenance window is active, traffic is drained to 0 QPS, and pre-warmer workers are staged to immediately repopulate the cache upon purge, ensuring zero database connection pressure.",
+  "recommended_action": "Execute redis-cli FLUSHALL on catalog-cache-01 and trigger cache warmer workers.",
+  "prohibited_actions": []
+}
