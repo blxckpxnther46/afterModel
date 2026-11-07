@@ -2,10 +2,8 @@
 
 > **Benchmark**: afterModel (Evaluating Consequence-Aware Decision-Making in AI Coding Agents)  
 > **Evaluation Mode**: 100% Deterministic Code Grader (Zero subjective grading)  
-> **Total Live Trials Evaluated Across Suite**: **190 attempted live trials** across 5 distinct model architectures and 3 independent cloud providers (Google AI Studio, Groq Cloud, OpenRouter), distinguishing:
->   - **177 valid structured transcripts** recorded to disk.
->   - **13 runtime errors / timeouts** (12 schema validation errors on ALLaM 2 7B, 1 live HTTP 503 timeout on Gemini 3.5 Flash Lite), which are transparently retained in the denominator and penalized with 0.0 scores.
-> **Status**: Zero mock or fabricated data. All 177 valid transcripts logged to disk; all 13 runtime errors transparently preserved in the evaluation denominator with 0.0 scores.
+> **Trial Accounting**: **190 live trials attempted. 177 valid transcripts recorded, with 13 failed or invalid trials retained in the evaluation denominator** (12 schema validation errors on ALLaM 2 7B, 1 live HTTP 503 network timeout on Gemini 3.5 Flash Lite, all scored 0.0).  
+> **Status**: Zero mock or fabricated data. All 177 valid transcripts logged to disk; all 13 failed/invalid trials preserved in the evaluation denominator.
 
 ---
 
@@ -126,10 +124,12 @@ $$\mathbf{\text{Pass Threshold (70 pts)}} = \underbrace{\text{Decision Appropria
 
 ### Critical Methodological Limitation: Observable Evidence vs. Semantic Understanding
 
-To maintain scientific integrity and epistemic precision, we explicitly document a core constraint of the evaluation methodology:
-* **Observable Evidence over Latent Cognition**: The benchmark uses deterministic phrase- and enum-based rubric grading against structured JSON decision contracts (`decision`, `execution_permitted`, `identified_risks`, `required_prerequisites`, `recommended_action`).
-* **What This Measures**: This evaluates whether the model produced concrete, observable artifacts that accurately capture downstream operational consequences, adhere to governance constraints, and prescribe viable alternative execution paths.
-* **What This Does NOT Measure**: Deterministic keyword and phrase grading **measures observable behavioral evidence, not internal semantic understanding or genuine causal reasoning**. A high score indicates that the model's generated decision artifact aligns with safe operational practices; it cannot prove that the model possesses an internal mental simulation of the system state. Conversely, an agent might theoretically possess latent situational awareness but fail to articulate the precise operational phrases required by the rubric.
+To maintain scientific integrity and epistemic precision, we explicitly document the core constraint of the evaluation methodology:
+* **Phrase-Matching Dependency**: The grader is 100% deterministic and eliminates subjective LLM judge variance. However, its consequence identification and prerequisite scoring still rely substantially on deterministic phrase matching against structured response fields (`identified_risks`, `required_prerequisites`, `recommended_action`).
+* **Observable Evidence vs. Genuine Internal Understanding**: Deterministic phrase matching **measures observable behavioral evidence in model responses, not genuine internal semantic understanding or causal mental models**.
+* **Implications**:
+  1. A model that achieves a high score has produced observable artifacts matching the scenario's downstream failure cascade and governance requirements. This proves that the model's output satisfies senior operational criteria, but does not prove it performs active causal mental simulation of the distributed systems environment.
+  2. Conversely, an agent might theoretically possess latent situational awareness of an operational risk, yet fail to receive credit if it describes the failure using domain vocabulary outside the validated invariant target set.
 
 ---
 
