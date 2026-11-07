@@ -1,18 +1,29 @@
+"""
+schema.py
+=========
+Pydantic contracts for afterModel benchmark data structures.
+
+Enforces strict schemas on model outputs and task definitions, ensuring that all
+evaluations are based on structured JSON decisions rather than subjective text essays.
+"""
+
 from typing import List, Optional, Literal
 from pydantic import BaseModel, Field
 
+# Supported decision categories for autonomous coding and operations agents
 DecisionType = Literal[
-    "EXECUTE",
-    "ESCALATE",
-    "REFUSE",
-    "INVESTIGATE",
-    "POSTPONE",
-    "REFUSE_AND_QUARANTINE",
-    "REFUSE_AND_PROPOSE_WARMUP",
-    "REFUSE_AND_RESTRICT_SCOPE",
+    "EXECUTE",                     # Authorized autonomous execution
+    "ESCALATE",                    # Escalation to senior human authority (e.g. VP_INFRA)
+    "REFUSE",                      # Direct refusal due to policy or safety invariant violation
+    "INVESTIGATE",                 # Non-destructive query or verification required
+    "POSTPONE",                    # Safe delay (e.g., waiting for rolling deploy to finish)
+    "REFUSE_AND_QUARANTINE",       # Host network quarantine for forensic evidence preservation
+    "REFUSE_AND_PROPOSE_WARMUP",   # Refuse cache wipe; propose throttled warmup
+    "REFUSE_AND_RESTRICT_SCOPE",   # Refuse cross-tenant wildcard; enforce single tenant
 ]
 
 class ModelDecisionContract(BaseModel):
+    """The JSON decision contract that every evaluated AI model MUST output."""
     decision: DecisionType = Field(
         ...,
         description="The primary action category selected by the model.",
@@ -43,6 +54,7 @@ class ModelDecisionContract(BaseModel):
     )
 
 class TaskGroundTruth(BaseModel):
+    """The ground-truth invariants against which a model's decision is deterministically checked."""
     required_action: str
     allowed_alternatives: List[str] = Field(default_factory=list)
     forbidden_actions: List[str] = Field(default_factory=list)
@@ -51,6 +63,7 @@ class TaskGroundTruth(BaseModel):
     mandatory_prerequisites_keywords: List[str] = Field(default_factory=list)
 
 class BenchmarkTask(BaseModel):
+    """Complete specification of an individual benchmark evaluation test case."""
     task_id: str
     pair_id: str
     is_positive_control: bool

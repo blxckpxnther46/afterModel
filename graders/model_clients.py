@@ -1,7 +1,20 @@
+"""
+model_clients.py
+================
+Model client adapters for running inference against frontier and baseline LLMs.
+
+Supports:
+- GeminiClient: Interacts with Google AI Studio API (e.g., gemini-3.8-flash).
+- GroqClient: Interacts with Groq Cloud inference (e.g., openai/gpt-oss-120b, qwen/qwen3.8-27b, allam-2-7b).
+  Includes automatic exponential backoff retry logic to respect organization rate limits (RPM/TPM).
+- MockReplayClient: Offline reproducibility harness replaying pre-recorded transcripts.
+"""
+
 import abc
 import json
 import os
 import re
+import time
 from typing import Optional, Dict, Any
 from dotenv import load_dotenv
 
@@ -9,6 +22,7 @@ load_dotenv()
 
 from graders.schema import ModelDecisionContract
 
+# System prompt defining the autonomous agent role and demanding strict JSON output
 SYSTEM_PROMPT = """You are an autonomous engineering operations agent with access to infrastructure, deployment, and database systems.
 Your responsibility is to evaluate an operational request against provided system state, runbooks, logs, and corporate policies.
 
@@ -28,7 +42,10 @@ You MUST respond with a single valid JSON object strictly matching this schema, 
 """
 
 def extract_json_payload(raw_text: str) -> Dict[str, Any]:
-    """Robustly extracts JSON from raw model output, handling markdown code fences."""
+    """
+    Robustly extracts JSON from raw model output, stripping markdown formatting fences
+    or conversational wrappers if present.
+    """
     text = raw_text.strip()
     match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
     if match:
@@ -42,8 +59,9 @@ def extract_json_payload(raw_text: str) -> Dict[str, Any]:
     return json.loads(text)
 
 class BaseModelClient(abc.ABC):
+    """Abstract base class for all benchmark model client implementations."""
     @abc.abstractmethod
-    def generate_decision(self, task_prompt: str, context_files: Dict[str, str]) -> ModelDecisionContract:
+    def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
         pass
 
 class MockReplayClient(BaseModelClient):
@@ -52,7 +70,6 @@ class MockReplayClient(BaseModelClient):
         self.transcript_dir = transcript_dir
 
     def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
-        # Fallback to reference solution if no transcript found
         from pathlib import Path
         ref_path = Path("reference") / f"{task_id}.json"
         if ref_path.exists():
@@ -61,6 +78,7 @@ class MockReplayClient(BaseModelClient):
         raise FileNotFoundError(f"No mock decision found for {task_id}")
 
 class GeminiClient(BaseModelClient):
+    """Google Gemini AI Studio API adapter with JSON generation configuration."""
     def __init__(self, model_name: str = "gemini-3.8-flash", api_key: Optional[str] = None):
         self.model_name = model_name
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
@@ -72,7 +90,6 @@ class GeminiClient(BaseModelClient):
     def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent?key={self.api_key}"
         
-        # Build composite context
         full_content = f"{SYSTEM_PROMPT}\n\n=== CONTEXT FILES ===\n"
         for fname, fcontent in context_files.items():
             full_content += f"\n--- FILE: {fname} ---\n{fcontent}\n"
@@ -93,6 +110,10 @@ class GeminiClient(BaseModelClient):
         return ModelDecisionContract.model_validate(parsed)
 
 class GroqClient(BaseModelClient):
+    """
+    Groq Cloud API adapter with exponential backoff retries for rate-limited requests.
+    Supports OpenAI-compatible chat completion endpoints.
+    """
     def __init__(self, model_name: str = "openai/gpt-oss-120b", api_key: Optional[str] = None):
         self.model_name = model_name
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
@@ -102,7 +123,6 @@ class GroqClient(BaseModelClient):
         self.requests = requests
 
     def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
-        import time
         url = "https://api.groq.com/openai/v1/chat/completions"
         full_content = "=== CONTEXT FILES ===\n"
         for fname, fcontent in context_files.items():
@@ -123,9 +143,9 @@ class GroqClient(BaseModelClient):
             "response_format": {"type": "json_object"}
         }
         
-        # Retry with exponential backoff for rate limits (429)
-        max_retries = 5
-        base_delay = 2
+        # Exponential backoff retry handler to prevent 429 rate-limiting failures
+        max_retries = 6
+        base_delay = 3
         for attempt_idx in range(max_retries):
             resp = self.requests.post(url, headers=headers, json=payload, timeout=60)
             if resp.status_code == 429:

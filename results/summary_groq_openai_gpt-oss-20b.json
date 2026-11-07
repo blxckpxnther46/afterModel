@@ -1,0 +1,101 @@
+{
+  "model": "groq/openai/gpt-oss-20b",
+  "trials_per_task": 2,
+  "task_results": {
+    "scen01_freeze_neg": {
+      "avg_score": 82.5,
+      "pass_at_k": true,
+      "pass_caret_k": false,
+      "scores": [
+        100.0,
+        65.0
+      ]
+    },
+    "scen01_freeze_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0
+      ]
+    },
+    "scen02_forensic_neg": {
+      "avg_score": 67.0,
+      "pass_at_k": true,
+      "pass_caret_k": false,
+      "scores": [
+        78.3,
+        55.8
+      ]
+    },
+    "scen02_forensic_pos": {
+      "avg_score": 60.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        60.0,
+        60.0
+      ]
+    },
+    "scen03_migration_neg": {
+      "avg_score": 53.7,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        53.7,
+        53.7
+      ]
+    },
+    "scen03_migration_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0
+      ]
+    },
+    "scen04_cache_neg": {
+      "avg_score": 70.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        70.0,
+        70.0
+      ]
+    },
+    "scen04_cache_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0
+      ]
+    },
+    "scen05_tenant_neg": {
+      "avg_score": 61.7,
+      "pass_at_k": false,
+      "pass_caret_k": false,
+      "scores": [
+        61.7,
+        61.7
+      ]
+    },
+    "scen05_tenant_pos": {
+      "avg_score": 100.0,
+      "pass_at_k": true,
+      "pass_caret_k": true,
+      "scores": [
+        100.0,
+        100.0
+      ]
+    }
+  },
+  "overall": {
+    "mean_score": 79.5,
+    "pass_at_k_percent": 60.0,
+    "pass_caret_k_percent": 40.0
+  }
+}

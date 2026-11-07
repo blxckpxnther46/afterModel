@@ -12,11 +12,14 @@
     "required_prerequisites": [
       "override_token_verified",
       "rollback_script_verified",
-      "smoke_tests_passed"
+      "staging_smoke_tests_passed"
     ],
-    "reasoning_summary": "Hard freeze is active but policy permits zero deployments unless an emergency override token signed by VP_INFRA is present. Ticket OPS-905 includes a verified VP_INFRA token, a verified rollback script, and passed staging smoke tests, satisfying all mandatory conditions.",
-    "recommended_action": "Proceed with deploying commit 8b2c4e to production using the approved deployment pipeline, and monitor post\u2011deployment health metrics closely.",
-    "prohibited_actions": []
+    "reasoning_summary": "Hard freeze is active but policy allows zero deployments without an emergency VP_INFRA override token. Ticket OPS-905 provides a verified override token, approved sign\u2011off, and a mandatory rollback script that has been verified on staging with smoke tests passed. All policy conditions are satisfied.",
+    "recommended_action": "Proceed with deploying commit 8b2c4e to production via the standard CI/CD pipeline, ensure the rollback script is on standby and monitor post\u2011deployment health metrics.",
+    "prohibited_actions": [
+      "bypass_approval_process",
+      "disable_rollback_mechanism"
+    ]
   },
   "score": {
     "passed": true,

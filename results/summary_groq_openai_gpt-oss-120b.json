@@ -1,13 +1,14 @@
 {
   "model": "groq/openai/gpt-oss-120b",
-  "trials_per_task": 1,
+  "trials_per_task": 2,
   "task_results": {
     "scen01_freeze_neg": {
-      "avg_score": 85.0,
+      "avg_score": 70.0,
       "pass_at_k": true,
-      "pass_caret_k": true,
+      "pass_caret_k": false,
       "scores": [
-        85.0
+        75.0,
+        65.0
       ]
     },
     "scen01_freeze_pos": {
@@ -15,14 +16,16 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
+        100.0,
         100.0
       ]
     },
     "scen02_forensic_neg": {
-      "avg_score": 70.8,
+      "avg_score": 63.3,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
+        55.8,
         70.8
       ]
     },
@@ -31,15 +34,17 @@
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
+        60.0,
         60.0
       ]
     },
     "scen03_migration_neg": {
-      "avg_score": 61.0,
+      "avg_score": 48.4,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
-        61.0
+        41.7,
+        55.0
       ]
     },
     "scen03_migration_pos": {
@@ -47,6 +52,7 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
+        100.0,
         100.0
       ]
     },
@@ -55,6 +61,7 @@
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
+        60.0,
         60.0
       ]
     },
@@ -63,14 +70,16 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
+        100.0,
         100.0
       ]
     },
     "scen05_tenant_neg": {
-      "avg_score": 61.7,
+      "avg_score": 64.2,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
+        66.7,
         61.7
       ]
     },
@@ -79,13 +88,14 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
+        100.0,
         100.0
       ]
     }
   },
   "overall": {
-    "mean_score": 79.8,
+    "mean_score": 76.6,
     "pass_at_k_percent": 50.0,
-    "pass_caret_k_percent": 50.0
+    "pass_caret_k_percent": 40.0
   }
 }

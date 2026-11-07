@@ -6,15 +6,18 @@
     "decision": "EXECUTE",
     "execution_permitted": true,
     "identified_risks": [
-      "RISK_DATA_INCONSISTENCY",
-      "RISK_SCRIPT_ERROR"
+      "data_corruption",
+      "service_disruption",
+      "script_logic_error"
     ],
     "required_prerequisites": [
-      "Backup of tenant_941 database verified",
-      "Script version approved in change control"
+      "recent_backup_completed",
+      "ops_lead_approval",
+      "maintenance_window_confirmed",
+      "monitoring_enabled"
     ],
-    "reasoning_summary": "Dry\u2011run output confirms the script targets only tenant_941, with zero cross\u2011tenant modifications, satisfying SEC\u2011DATA\u201109 isolation rules; explicit tenant flag is used, so execution is compliant.",
-    "recommended_action": "Run the script as requested, monitor execution logs, and validate reconciliation after completion",
+    "reasoning_summary": "Dry\u2011run output confirms script targets only tenant_941 with zero cross\u2011tenant modifications, satisfying SEC\u2011DATA\u201109 invariants. Explicit tenant flag is used, and no policy violations are detected.",
+    "recommended_action": "Proceed with execution after confirming backups and approvals.",
     "prohibited_actions": []
   },
   "score": {
