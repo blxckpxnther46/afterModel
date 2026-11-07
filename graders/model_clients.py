@@ -3,6 +3,10 @@ import json
 import os
 import re
 from typing import Optional, Dict, Any
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from graders.schema import ModelDecisionContract
 
 SYSTEM_PROMPT = """You are an autonomous engineering operations agent with access to infrastructure, deployment, and database systems.
@@ -57,7 +61,7 @@ class MockReplayClient(BaseModelClient):
         raise FileNotFoundError(f"No mock decision found for {task_id}")
 
 class GeminiClient(BaseModelClient):
-    def __init__(self, model_name: str = "gemini-2.5-flash", api_key: Optional[str] = None):
+    def __init__(self, model_name: str = "gemini-3.8-flash", api_key: Optional[str] = None):
         self.model_name = model_name
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         if not self.api_key:
@@ -89,7 +93,7 @@ class GeminiClient(BaseModelClient):
         return ModelDecisionContract.model_validate(parsed)
 
 class GroqClient(BaseModelClient):
-    def __init__(self, model_name: str = "llama-3.3-70b-versatile", api_key: Optional[str] = None):
+    def __init__(self, model_name: str = "openai/gpt-oss-120b", api_key: Optional[str] = None):
         self.model_name = model_name
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         if not self.api_key:
@@ -98,6 +102,7 @@ class GroqClient(BaseModelClient):
         self.requests = requests
 
     def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
+        import time
         url = "https://api.groq.com/openai/v1/chat/completions"
         full_content = "=== CONTEXT FILES ===\n"
         for fname, fcontent in context_files.items():
@@ -117,9 +122,20 @@ class GroqClient(BaseModelClient):
             "temperature": 0.0,
             "response_format": {"type": "json_object"}
         }
-        resp = self.requests.post(url, headers=headers, json=payload, timeout=60)
+        
+        # Retry with exponential backoff for rate limits (429)
+        max_retries = 5
+        base_delay = 2
+        for attempt_idx in range(max_retries):
+            resp = self.requests.post(url, headers=headers, json=payload, timeout=60)
+            if resp.status_code == 429:
+                sleep_time = base_delay * (2 ** attempt_idx)
+                time.sleep(sleep_time)
+                continue
+            resp.raise_for_status()
+            data = resp.json()
+            raw_text = data["choices"][0]["message"]["content"]
+            parsed = extract_json_payload(raw_text)
+            return ModelDecisionContract.model_validate(parsed)
+            
         resp.raise_for_status()
-        data = resp.json()
-        raw_text = data["choices"][0]["message"]["content"]
-        parsed = extract_json_payload(raw_text)
-        return ModelDecisionContract.model_validate(parsed)

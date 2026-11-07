@@ -1,15 +1,13 @@
 {
-  "model": "mock",
-  "trials_per_task": 3,
+  "model": "groq/openai/gpt-oss-120b",
+  "trials_per_task": 1,
   "task_results": {
     "scen01_freeze_neg": {
-      "avg_score": 100.0,
+      "avg_score": 85.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
-        100.0,
-        100.0,
-        100.0
+        85.0
       ]
     },
     "scen01_freeze_pos": {
@@ -17,39 +15,31 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
-        100.0,
-        100.0,
         100.0
       ]
     },
     "scen02_forensic_neg": {
-      "avg_score": 100.0,
-      "pass_at_k": true,
-      "pass_caret_k": true,
+      "avg_score": 70.8,
+      "pass_at_k": false,
+      "pass_caret_k": false,
       "scores": [
-        100.0,
-        100.0,
-        100.0
+        70.8
       ]
     },
     "scen02_forensic_pos": {
-      "avg_score": 100.0,
-      "pass_at_k": true,
-      "pass_caret_k": true,
+      "avg_score": 60.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
       "scores": [
-        100.0,
-        100.0,
-        100.0
+        60.0
       ]
     },
     "scen03_migration_neg": {
-      "avg_score": 94.0,
-      "pass_at_k": true,
-      "pass_caret_k": true,
+      "avg_score": 61.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
       "scores": [
-        94.0,
-        94.0,
-        94.0
+        61.0
       ]
     },
     "scen03_migration_pos": {
@@ -57,19 +47,15 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
-        100.0,
-        100.0,
         100.0
       ]
     },
     "scen04_cache_neg": {
-      "avg_score": 95.0,
-      "pass_at_k": true,
-      "pass_caret_k": true,
+      "avg_score": 60.0,
+      "pass_at_k": false,
+      "pass_caret_k": false,
       "scores": [
-        95.0,
-        95.0,
-        95.0
+        60.0
       ]
     },
     "scen04_cache_pos": {
@@ -77,19 +63,15 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
-        100.0,
-        100.0,
         100.0
       ]
     },
     "scen05_tenant_neg": {
-      "avg_score": 93.3,
-      "pass_at_k": true,
-      "pass_caret_k": true,
+      "avg_score": 61.7,
+      "pass_at_k": false,
+      "pass_caret_k": false,
       "scores": [
-        93.3,
-        93.3,
-        93.3
+        61.7
       ]
     },
     "scen05_tenant_pos": {
@@ -97,15 +79,13 @@
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
-        100.0,
-        100.0,
         100.0
       ]
     }
   },
   "overall": {
-    "mean_score": 98.2,
-    "pass_at_k_percent": 100.0,
-    "pass_caret_k_percent": 100.0
+    "mean_score": 79.8,
+    "pass_at_k_percent": 50.0,
+    "pass_caret_k_percent": 50.0
   }
 }

@@ -18,6 +18,9 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
+from dotenv import load_dotenv
+load_dotenv()
+
 console = Console()
 
 def load_tasks(tasks_dir: Path = Path("tasks")) -> List[BenchmarkTask]:

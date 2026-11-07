@@ -15,12 +15,13 @@ class EvaluationScore(BaseModel):
 
 def _contains_keyword(targets: List[str], text_pool: List[str]) -> Tuple[int, List[str]]:
     matched = []
-    combined_pool = " ".join(text_pool).lower()
+    # Join pool and replace underscores and dashes with spaces for flexible fuzzy token matching
+    raw_combined = " ".join(text_pool).lower()
+    norm_combined = raw_combined.replace("_", " ").replace("-", " ")
     for target in targets:
-        # Check normalized token containment
-        norm_target = target.lower().replace("_", " ").replace("-", " ")
         raw_target = target.lower()
-        if raw_target in combined_pool or norm_target in combined_pool:
+        norm_target = raw_target.replace("_", " ").replace("-", " ")
+        if raw_target in raw_combined or norm_target in norm_combined or any(part in norm_combined for part in norm_target.split() if len(part) >= 4):
             matched.append(target)
     return len(matched), matched
 

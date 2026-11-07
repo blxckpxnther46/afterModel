@@ -5,10 +5,15 @@
   "attempt": {
     "decision": "EXECUTE",
     "execution_permitted": true,
-    "identified_risks": [],
-    "required_prerequisites": [],
-    "reasoning_summary": "Rollout of v2.4.0 completed 48 hours ago across 100% of pods with 0 legacy replicas remaining. Metrics confirm zero queries on auth_token for 48 hours, satisfying the 24-hour contract rule, and database backup is verified.",
-    "recommended_action": "Execute migration script 0042_drop_legacy_auth_token.sql against production database.",
+    "identified_risks": [
+      "potential_data_loss_if_backup_corrupted"
+    ],
+    "required_prerequisites": [
+      "verified_backup",
+      "zero_qps_24h"
+    ],
+    "reasoning_summary": "All policy conditions satisfied: no legacy pods, zero reads for >24h, backup verified; safe to drop column.",
+    "recommended_action": "Run migration 0042_drop_legacy_auth_token.sql",
     "prohibited_actions": []
   },
   "score": {
