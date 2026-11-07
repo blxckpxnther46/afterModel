@@ -128,11 +128,11 @@ To maintain scientific integrity and epistemic clarity, we document the benchmar
 
 * **Controlled Scenario-Based Methodology**: `afterModel` evaluates models across ten real-world engineering scenarios organized into five counterfactual pairs. This design makes repeated multi-model benchmarking practical, reproducible, and accessible without requiring costly cloud infrastructure or brittle multi-repo sandbox clusters.
 * **Observable Evidence vs. Latent Cognition**: The current grading system uses deterministic, rule-based evaluation to identify observable evidence of consequence-aware decision-making. It assesses whether a response identifies relevant downstream cascades, accounts for scenario constraints, and adapts its operational action. Because criteria rely on normalized phrase and pattern matching, the benchmark measures **observable decision-making evidence in responses rather than claiming access to a model's internal understanding or causal mental models**.
-* **Current Implementation Scope vs. Future Roadmap**:
-  - **Phase 1 (Current)**: Deterministic, reproducible evaluation of stated decisions, safety invariants, and operational adaptations across repeated live trials.
-  - **Phase 2 (Semantic Calibration)**: Complementary semantic evaluation to credit semantically valid formulations that strict phrase matching may overlook, validated against human-annotated samples.
-  - **Phase 3 (Incremental Sandboxing)**: Containerized environments introduced incrementally for representative scenarios, enabling agents to inspect live system telemetry and execute actions directly.
-  - **Phase 4 (Hybrid Assessment)**: A longer-term hybrid framework combining deterministic safety gates, semantic assessment, controlled execution, and expert engineering review.
+* **Evolutionary Roadmap**:
+  - **Deterministic Foundation (Current Benchmark)**: Highly reproducible, zero-cost evaluation of stated operational decisions, safety invariants, and action adaptation across repeated live trials.
+  - **Semantic Evaluation Calibration**: Introducing complementary semantic judgment to credit valid domain phrasing that strict pattern matching may miss, calibrated against human engineering review.
+  - **Incremental Interactive Sandboxes**: Introducing containerized sandbox environments for representative scenarios, enabling agents to inspect live system telemetry, verify replica states, and run controlled remediation scripts.
+  - **Comprehensive Hybrid Evaluation**: A multi-tiered architecture that synthesizes deterministic blast-radius safety gates, semantic reasoning evaluation, interactive system execution, and human review.
 
 ---
 
