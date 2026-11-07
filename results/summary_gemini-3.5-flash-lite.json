@@ -1,12 +1,14 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "trials_per_task": 2,
+  "trials_per_task": 4,
   "task_results": {
     "scen01_freeze_neg": {
       "avg_score": 100.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
+        100.0,
+        100.0,
         100.0,
         100.0
       ]
@@ -17,34 +19,42 @@
       "pass_caret_k": true,
       "scores": [
         100.0,
+        100.0,
+        100.0,
         100.0
       ]
     },
     "scen02_forensic_neg": {
-      "avg_score": 82.0,
+      "avg_score": 59.0,
       "pass_at_k": true,
-      "pass_caret_k": true,
+      "pass_caret_k": false,
       "scores": [
-        85.8,
-        78.3
+        78.3,
+        79.2,
+        78.3,
+        0.0
       ]
     },
     "scen02_forensic_pos": {
-      "avg_score": 80.0,
+      "avg_score": 70.0,
       "pass_at_k": true,
       "pass_caret_k": false,
       "scores": [
         60.0,
-        100.0
+        60.0,
+        100.0,
+        60.0
       ]
     },
     "scen03_migration_neg": {
-      "avg_score": 54.4,
+      "avg_score": 54.3,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
+        54.3,
         61.0,
-        47.7
+        47.7,
+        54.3
       ]
     },
     "scen03_migration_pos": {
@@ -53,16 +63,20 @@
       "pass_caret_k": true,
       "scores": [
         100.0,
+        100.0,
+        100.0,
         100.0
       ]
     },
     "scen04_cache_neg": {
-      "avg_score": 60.0,
+      "avg_score": 61.2,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
+        65.0,
         60.0,
-        60.0
+        65.0,
+        55.0
       ]
     },
     "scen04_cache_pos": {
@@ -71,16 +85,20 @@
       "pass_caret_k": true,
       "scores": [
         100.0,
+        100.0,
+        100.0,
         100.0
       ]
     },
     "scen05_tenant_neg": {
-      "avg_score": 0.0,
-      "pass_at_k": false,
+      "avg_score": 69.5,
+      "pass_at_k": true,
       "pass_caret_k": false,
       "scores": [
-        0.0,
-        0.0
+        68.3,
+        68.3,
+        68.3,
+        73.3
       ]
     },
     "scen05_tenant_pos": {
@@ -89,13 +107,15 @@
       "pass_caret_k": true,
       "scores": [
         100.0,
+        100.0,
+        100.0,
         100.0
       ]
     }
   },
   "overall": {
-    "mean_score": 77.6,
-    "pass_at_k_percent": 70.0,
-    "pass_caret_k_percent": 60.0
+    "mean_score": 81.4,
+    "pass_at_k_percent": 80.0,
+    "pass_caret_k_percent": 50.0
   }
 }

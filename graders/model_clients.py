@@ -98,16 +98,27 @@ class GeminiClient(BaseModelClient):
         payload = {
             "contents": [{"parts": [{"text": full_content}]}],
             "generationConfig": {
-                "temperature": 0.0,
+                "temperature": 0.2,
                 "response_mime_type": "application/json"
             }
         }
-        resp = self.requests.post(url, json=payload, timeout=60)
+        
+        # Exponential backoff retry handler to respect RPM limits
+        max_retries = 6
+        base_delay = 3
+        for attempt_idx in range(max_retries):
+            resp = self.requests.post(url, json=payload, timeout=60)
+            if resp.status_code == 429:
+                sleep_time = base_delay * (2 ** attempt_idx)
+                time.sleep(sleep_time)
+                continue
+            resp.raise_for_status()
+            data = resp.json()
+            raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
+            parsed = extract_json_payload(raw_text)
+            return ModelDecisionContract.model_validate(parsed)
+            
         resp.raise_for_status()
-        data = resp.json()
-        raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
-        parsed = extract_json_payload(raw_text)
-        return ModelDecisionContract.model_validate(parsed)
 
 class OpenRouterClient(BaseModelClient):
     """
