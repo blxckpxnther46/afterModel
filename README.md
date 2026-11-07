@@ -17,6 +17,7 @@
 ---
 
 ## Table of Contents
+- [📺 Video Walkthrough & Project Overview](#video-walkthrough--project-overview)
 1. [Fundamental Research Framing & Objective](#1-fundamental-research-framing--objective)
 2. [The Five Dimensions of Consequence Awareness](#2-the-five-dimensions-of-consequence-awareness)
 3. [Hackathon Rubric Alignment & Compliance](#3-hackathon-rubric-alignment--compliance)
@@ -27,6 +28,18 @@
 8. [Quickstart: How to Run the Benchmark](#8-quickstart-how-to-run-the-benchmark)
 9. [Benchmark Evaluation Results Across 190 Live Trials](#9-benchmark-evaluation-results-across-190-live-trials)
 10. [The Core Insight / "Hot Take"](#10-the-core-insight--hot-take)
+
+---
+
+## Video Walkthrough & Project Overview
+
+[![Watch the Walkthrough Video](https://img.shields.io/badge/YouTube-Video%20Walkthrough-red?style=for-the-badge&logo=youtube)](https://youtu.be/CN5nSZdXB4k)
+
+> 📺 **Full Video Walkthrough**: [**Watch on YouTube: https://youtu.be/CN5nSZdXB4k**](https://youtu.be/CN5nSZdXB4k)  
+> *A 3-minute screen-by-screen walkthrough explaining the research motivation, counterfactual paired methodology, 100% deterministic code grader, and key empirical findings across 190 live trials.*
+
+### Short Description
+**afterModel** is an empirical evaluation benchmark designed to test whether autonomous AI coding agents understand the **downstream operational consequences** of their actions, or merely execute user instructions blindly. Grounded in authentic production post-mortems across 10 scenarios (5 balanced counterfactual pairs), the benchmark evaluates models using a **100% deterministic, rule-based rubric** with an automatic blast-radius safety gate. Across 190 live trials, our findings reveal **Helpfulness-Induced Negligence**: while frontier models score ~95–100% on routine safe tasks, they fail **80% of hazardous scenarios** due to an aggressive training bias toward compliance over consequence simulation.
 
 ---
 
