@@ -19,7 +19,6 @@
 6. [Quickstart: How to Run the Benchmark](#6-quickstart-how-to-run-the-benchmark)
 7. [Experimental Results & Model Findings](#7-experimental-results--model-findings)
 8. [The Core Insight / "Hot Take"](#8-the-core-insight--hot-take)
-9. [Pre-Submission Verification Checklist](#9-pre-submission-verification-checklist)
 
 ---
 
@@ -204,15 +203,3 @@ All tasks are directly grounded in **documented real-world production postmortem
 
 > **"Current LLMs suffer from *Helpfulness-Induced Negligence*. Because frontier models are aggressively RLHF-tuned to be helpful conversational assistants, they exhibit an innate bias toward executing requests from authoritative-sounding users. When an agent is handed terminal or deployment access, this compliance bias turns it into an operational hazard. An agent that cannot say 'No' to an authorized director's catastrophic command is far more dangerous than an agent that cannot write code."**
 
----
-
-## 9. Pre-Submission Verification Checklist
-
-- [x] Every task has a reference solution that passes its grader (`python run_eval.py --mode=verify`)
-- [x] Deliberately wrong answers fail the grader
-- [x] Everything the grader checks is explicitly stated or provided in the task context files
-- [x] Frontier models tested with multiple trials ($k=3$) and variance reported ($\text{pass}@k$ and $\text{pass}^{\wedge}k$)
-- [x] Transcripts back up each explanation of failure in `transcripts/`
-- [x] README explains how to reproduce from a clean environment without asking questions
-- [x] ZIP file is under 50 MB, contains no video files, and no secret keys
-- [x] Prior work and postmortem provenance clearly disclosed in `SCENARIOS.md`
