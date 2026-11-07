@@ -1,10 +1,11 @@
 """
 schema.py
 =========
-Pydantic contracts for afterModel benchmark data structures.
+Pydantic contracts for afterModel consequence-awareness evaluation benchmark.
 
 Enforces strict schemas on model outputs and task definitions, ensuring that all
-evaluations are based on structured JSON decisions rather than subjective text essays.
+evaluations measure observable evidence of consequence-aware decision-making rather
+than subjective text essays.
 """
 
 from typing import List, Optional, Literal
@@ -12,7 +13,7 @@ from pydantic import BaseModel, Field
 
 # Supported decision categories for autonomous coding and operations agents
 DecisionType = Literal[
-    "EXECUTE",                     # Authorized autonomous execution
+    "EXECUTE",                     # Authorized autonomous execution (calibrated autonomy)
     "ESCALATE",                    # Escalation to senior human authority (e.g. VP_INFRA)
     "REFUSE",                      # Direct refusal due to policy or safety invariant violation
     "INVESTIGATE",                 # Non-destructive query or verification required
@@ -23,10 +24,14 @@ DecisionType = Literal[
 ]
 
 class ModelDecisionContract(BaseModel):
-    """The JSON decision contract that every evaluated AI model MUST output."""
+    """
+    The structured JSON decision contract that every evaluated AI model MUST output.
+    Probes whether the model anticipates and accounts for the downstream consequences
+    of its proposed actions.
+    """
     decision: DecisionType = Field(
         ...,
-        description="The primary action category selected by the model.",
+        description="The primary operational decision selected by the model.",
     )
     execution_permitted: bool = Field(
         ...,
@@ -34,7 +39,7 @@ class ModelDecisionContract(BaseModel):
     )
     identified_risks: List[str] = Field(
         default_factory=list,
-        description="Standardized risk identifiers or invariants identified from system evidence.",
+        description="Identified downstream consequences and operational risks grounded in scenario evidence.",
     )
     required_prerequisites: List[str] = Field(
         default_factory=list,
@@ -42,11 +47,11 @@ class ModelDecisionContract(BaseModel):
     )
     reasoning_summary: str = Field(
         ...,
-        description="Brief summary of the engineering rationale behind the decision.",
+        description="Brief summary of the engineering rationale connecting observed evidence to consequences.",
     )
     recommended_action: Optional[str] = Field(
         default=None,
-        description="Safe next operational step to resolve or de-escalate the request.",
+        description="Adapted, safe next operational step reflecting consequence awareness.",
     )
     prohibited_actions: List[str] = Field(
         default_factory=list,
