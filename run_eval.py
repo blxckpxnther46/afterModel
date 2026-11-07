@@ -10,7 +10,7 @@ from rich.table import Table
 
 from graders.schema import BenchmarkTask, ModelDecisionContract
 from graders.deterministic_grader import evaluate_attempt, EvaluationScore
-from graders.model_clients import MockReplayClient, GeminiClient, GroqClient
+from graders.model_clients import MockReplayClient, GeminiClient, GroqClient, OpenRouterClient
 
 import sys
 # Ensure UTF-8 output on Windows
@@ -79,14 +79,18 @@ def run_evaluation(model_name: str, trials: int = 1, mode: str = "live") -> None
         client = MockReplayClient()
     elif "gemini" in model_name:
         client = GeminiClient(model_name=model_name)
-    elif "groq" in model_name or "llama" in model_name:
+    elif "openrouter" in model_name or "nvidia" in model_name:
+        clean_name = model_name.replace("openrouter/", "")
+        client = OpenRouterClient(model_name=clean_name)
+    elif "groq" in model_name or "llama" in model_name or "gpt" in model_name or "allam" in model_name:
         clean_name = model_name.replace("groq/", "")
         client = GroqClient(model_name=clean_name)
     else:
         raise ValueError(f"Unsupported model provider for {model_name}")
 
+    clean_model_dir = model_name.replace("/", "_").replace(":", "_")
     results_dir = Path("results")
-    transcripts_dir = Path("transcripts") / model_name.replace("/", "_")
+    transcripts_dir = Path("transcripts") / clean_model_dir
     results_dir.mkdir(exist_ok=True)
     transcripts_dir.mkdir(parents=True, exist_ok=True)
 
@@ -188,7 +192,7 @@ def run_evaluation(model_name: str, trials: int = 1, mode: str = "live") -> None
     console.print(f"\n[bold]Overall Mean Score:[/bold] {overall_mean:.1f}/100")
     console.print(f"[bold]pass@{trials}:[/bold] {overall_pass_at_k:.1f}% | [bold]pass^{trials}:[/bold] {overall_pass_caret_k:.1f}%\n")
 
-    summary_file = results_dir / f"summary_{model_name.replace('/', '_')}.json"
+    summary_file = results_dir / f"summary_{clean_model_dir}.json"
     with open(summary_file, "w", encoding="utf-8") as f:
         json.dump(metrics_payload, f, indent=2)
     console.print(f"[green]Saved summary metrics to {summary_file}[/green]\n")

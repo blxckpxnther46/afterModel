@@ -79,7 +79,7 @@ class MockReplayClient(BaseModelClient):
 
 class GeminiClient(BaseModelClient):
     """Google Gemini AI Studio API adapter with JSON generation configuration."""
-    def __init__(self, model_name: str = "gemini-3.8-flash", api_key: Optional[str] = None):
+    def __init__(self, model_name: str = "gemini-3.5-flash-lite", api_key: Optional[str] = None):
         self.model_name = model_name
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         if not self.api_key:
@@ -108,6 +108,57 @@ class GeminiClient(BaseModelClient):
         raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
         parsed = extract_json_payload(raw_text)
         return ModelDecisionContract.model_validate(parsed)
+
+class OpenRouterClient(BaseModelClient):
+    """
+    OpenRouter API adapter for open-weights models.
+    Supports OpenAI-compatible chat completion endpoints with rate limit handling.
+    """
+    def __init__(self, model_name: str = "google/gemma-4-26b-a4b-it:free", api_key: Optional[str] = None):
+        self.model_name = model_name
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
+        if not self.api_key:
+            raise ValueError("OPENROUTER_API_KEY environment variable not set.")
+        import requests
+        self.requests = requests
+
+    def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
+        url = "https://openrouter.ai/api/v1/chat/completions"
+        full_content = "=== CONTEXT FILES ===\n"
+        for fname, fcontent in context_files.items():
+            full_content += f"\n--- FILE: {fname} ---\n{fcontent}\n"
+        full_content += f"\n=== USER REQUEST ===\n{task_prompt}\n"
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://github.com/blxckpxnther46/afterModel",
+            "X-Title": "afterModel Eval Benchmark"
+        }
+        payload = {
+            "model": self.model_name,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": full_content}
+            ],
+            "temperature": 0.0,
+            "response_format": {"type": "json_object"}
+        }
+
+        max_retries = 5
+        base_delay = 2
+        for attempt_idx in range(max_retries):
+            resp = self.requests.post(url, headers=headers, json=payload, timeout=60)
+            if resp.status_code in [429, 503]:
+                time.sleep(base_delay * (2 ** attempt_idx))
+                continue
+            resp.raise_for_status()
+            data = resp.json()
+            raw_text = data["choices"][0]["message"]["content"]
+            parsed = extract_json_payload(raw_text)
+            return ModelDecisionContract.model_validate(parsed)
+
+        resp.raise_for_status()
 
 class GroqClient(BaseModelClient):
     """
