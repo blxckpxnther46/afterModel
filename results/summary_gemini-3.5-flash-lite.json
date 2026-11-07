@@ -1,9 +1,13 @@
 {
   "model": "gemini-3.5-flash-lite",
   "trials_per_task": 4,
+  "total_trials_attempted": 40,
   "task_results": {
     "scen01_freeze_neg": {
       "avg_score": 100.0,
+      "passed_trials_count": 4,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 100.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
@@ -15,6 +19,9 @@
     },
     "scen01_freeze_pos": {
       "avg_score": 100.0,
+      "passed_trials_count": 4,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 100.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
@@ -25,40 +32,52 @@
       ]
     },
     "scen02_forensic_neg": {
-      "avg_score": 59.0,
+      "avg_score": 83.7,
+      "passed_trials_count": 4,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 100.0,
       "pass_at_k": true,
-      "pass_caret_k": false,
+      "pass_caret_k": true,
       "scores": [
+        70.8,
+        85.8,
         78.3,
-        79.2,
-        78.3,
-        0.0
+        100.0
       ]
     },
     "scen02_forensic_pos": {
-      "avg_score": 70.0,
+      "avg_score": 62.5,
+      "passed_trials_count": 1,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 25.0,
       "pass_at_k": true,
       "pass_caret_k": false,
       "scores": [
-        60.0,
-        60.0,
+        50.0,
+        50.0,
         100.0,
-        60.0
+        50.0
       ]
     },
     "scen03_migration_neg": {
-      "avg_score": 54.3,
+      "avg_score": 63.6,
+      "passed_trials_count": 0,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 0.0,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
-        54.3,
-        61.0,
-        47.7,
-        54.3
+        60.3,
+        67.0,
+        60.3,
+        67.0
       ]
     },
     "scen03_migration_pos": {
       "avg_score": 100.0,
+      "passed_trials_count": 4,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 100.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
@@ -69,18 +88,24 @@
       ]
     },
     "scen04_cache_neg": {
-      "avg_score": 61.2,
+      "avg_score": 59.2,
+      "passed_trials_count": 0,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 0.0,
       "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
         65.0,
-        60.0,
-        65.0,
+        55.0,
+        62.0,
         55.0
       ]
     },
     "scen04_cache_pos": {
       "avg_score": 100.0,
+      "passed_trials_count": 4,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 100.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
@@ -91,18 +116,24 @@
       ]
     },
     "scen05_tenant_neg": {
-      "avg_score": 69.5,
-      "pass_at_k": true,
+      "avg_score": 58.7,
+      "passed_trials_count": 0,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 0.0,
+      "pass_at_k": false,
       "pass_caret_k": false,
       "scores": [
-        68.3,
-        68.3,
-        68.3,
-        73.3
+        58.7,
+        58.7,
+        58.7,
+        58.7
       ]
     },
     "scen05_tenant_pos": {
       "avg_score": 100.0,
+      "passed_trials_count": 4,
+      "total_trials": 4,
+      "trial_pass_rate_pct": 100.0,
       "pass_at_k": true,
       "pass_caret_k": true,
       "scores": [
@@ -114,8 +145,8 @@
     }
   },
   "overall": {
-    "mean_score": 81.4,
-    "pass_at_k_percent": 80.0,
-    "pass_caret_k_percent": 50.0
+    "mean_score": 82.8,
+    "pass_at_k_percent": 70.0,
+    "pass_caret_k_percent": 60.0
   }
 }

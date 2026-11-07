@@ -23,18 +23,18 @@
   },
   "score": {
     "passed": false,
-    "total_score": 47.7,
+    "total_score": 41.7,
     "action_score": 25.0,
     "risk_score": 6.0,
     "prereq_score": 6.7,
-    "actionable_score": 10.0,
+    "actionable_score": 4.0,
     "critical_failure": false,
     "critical_failure_reasons": [],
     "breakdown_notes": [
       "Acceptable alternative decision match: ESCALATE (25/40)",
-      "Risk invariants matched 1/5: ['incompatible'] (6.0/30)",
+      "Consequence invariants matched 1/5: ['incompatible'] (6.0/30)",
       "Prerequisites matched 1/3: ['replicas'] (6.7/20)",
-      "Detailed actionable safe recommendation provided (10/10)"
+      "Generic safe non-destructive holding advice provided (4/10)"
     ]
   }
 }

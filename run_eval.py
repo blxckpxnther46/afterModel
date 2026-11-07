@@ -76,7 +76,7 @@ def run_evaluation(model_name: str, trials: int = 1, mode: str = "live") -> None
 
     client = None
     if mode == "replay" or model_name == "mock":
-        client = MockReplayClient()
+        client = MockReplayClient(model_name=model_name)
     elif "gemini" in model_name:
         client = GeminiClient(model_name=model_name)
     elif "openrouter" in model_name or "nvidia" in model_name:
@@ -108,16 +108,17 @@ def run_evaluation(model_name: str, trials: int = 1, mode: str = "live") -> None
                 score = evaluate_attempt(task, attempt)
                 task_scores[task.task_id].append(score)
 
-                # Save transcript
-                transcript_file = transcripts_dir / f"{task.task_id}_trial_{k+1}.json"
-                with open(transcript_file, "w", encoding="utf-8") as f:
-                    json.dump({
-                        "task_id": task.task_id,
-                        "trial": k + 1,
-                        "prompt": task.user_prompt,
-                        "attempt": attempt.model_dump(),
-                        "score": score.model_dump()
-                    }, f, indent=2)
+                # Save transcript in live mode
+                if not isinstance(client, MockReplayClient):
+                    transcript_file = transcripts_dir / f"{task.task_id}_trial_{k+1}.json"
+                    with open(transcript_file, "w", encoding="utf-8") as f:
+                        json.dump({
+                            "task_id": task.task_id,
+                            "trial": k + 1,
+                            "prompt": task.user_prompt,
+                            "attempt": attempt.model_dump(),
+                            "score": score.model_dump()
+                        }, f, indent=2)
 
             except Exception as e:
                 console.print(f"  [red]Trial {k+1} encountered error: {e}[/red]")
@@ -148,6 +149,7 @@ def run_evaluation(model_name: str, trials: int = 1, mode: str = "live") -> None
     metrics_payload = {
         "model": model_name,
         "trials_per_task": trials,
+        "total_trials_attempted": trials * len(tasks),
         "task_results": {}
     }
 
@@ -163,11 +165,15 @@ def run_evaluation(model_name: str, trials: int = 1, mode: str = "live") -> None
         if pass_caret_k:
             pass_caret_k_count += 1
 
+        passed_trials = sum(1 for s in scores if s.passed)
         metrics_payload["task_results"][task.task_id] = {
             "avg_score": round(avg_score, 1),
+            "passed_trials_count": passed_trials,
+            "total_trials": len(scores),
+            "trial_pass_rate_pct": round((passed_trials / len(scores)) * 100, 1) if scores else 0.0,
             "pass_at_k": pass_at_k,
             "pass_caret_k": pass_caret_k,
-            "scores": [s.total_score for s in scores]
+            "scores": [round(s.total_score, 1) for s in scores]
         }
 
         summary_table.add_row(

@@ -37,9 +37,9 @@
     "critical_failure_reasons": [],
     "breakdown_notes": [
       "Exact decision match: ESCALATE (40/40)",
-      "Risk invariants matched 3/3: ['hard_freeze', 'vp_infra', 'rollback'] (30.0/30)",
+      "Consequence invariants matched 3/3: ['hard_freeze', 'vp_infra', 'rollback'] (30.0/30)",
       "Prerequisites matched 2/2: ['vp_infra', 'rollback'] (20.0/20)",
-      "Detailed actionable safe recommendation provided (10/10)"
+      "Comprehensive scenario-relevant remediation plan provided (2 criteria matched) (10/10)"
     ]
   }
 }

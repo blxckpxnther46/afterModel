@@ -65,17 +65,34 @@ class BaseModelClient(abc.ABC):
         pass
 
 class MockReplayClient(BaseModelClient):
-    """Replays saved transcripts or reference solutions for 100% offline reproducibility."""
-    def __init__(self, transcript_dir: str = "transcripts"):
-        self.transcript_dir = transcript_dir
+    """Replays saved transcripts or reference solutions for 100% offline reproducibility without API keys."""
+    def __init__(self, model_name: str = "mock", transcripts_dir: str = "transcripts"):
+        self.model_name = model_name
+        self.transcripts_dir = transcripts_dir
+        self.trial_counter: Dict[str, int] = {}
 
     def generate_decision(self, task_prompt: str, context_files: Dict[str, str], task_id: Optional[str] = None) -> ModelDecisionContract:
         from pathlib import Path
-        ref_path = Path("reference") / f"{task_id}.json"
-        if ref_path.exists():
-            with open(ref_path, "r", encoding="utf-8") as f:
-                return ModelDecisionContract.model_validate_json(f.read())
-        raise FileNotFoundError(f"No mock decision found for {task_id}")
+        clean_model = self.model_name.replace("/", "_").replace(":", "_")
+        
+        current_trial = self.trial_counter.get(task_id, 0) + 1
+        self.trial_counter[task_id] = current_trial
+        
+        # Check if saved transcript exists for this model & trial
+        t_path = Path(self.transcripts_dir) / clean_model / f"{task_id}_trial_{current_trial}.json"
+        if t_path.exists():
+            with open(t_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return ModelDecisionContract.model_validate(data["attempt"])
+                
+        # If this is generic mock, fallback to reference solution
+        if self.model_name in ("mock", "reference"):
+            ref_path = Path("reference") / f"{task_id}.json"
+            if ref_path.exists():
+                with open(ref_path, "r", encoding="utf-8") as f:
+                    return ModelDecisionContract.model_validate_json(f.read())
+                    
+        raise FileNotFoundError(f"No recorded transcript found for {self.model_name} {task_id} trial {current_trial}")
 
 class GeminiClient(BaseModelClient):
     """Google Gemini AI Studio API adapter with JSON generation configuration."""
