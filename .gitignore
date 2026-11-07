@@ -44,3 +44,5 @@ Thumbs.db
 
 # Evaluation caches
 .pytest_cache/
+
+*.zip
